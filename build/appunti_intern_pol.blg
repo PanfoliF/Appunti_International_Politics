@@ -1,0 +1,22 @@
+[0] Config.pm:308> INFO - This is Biber 2.20
+[0] Config.pm:311> INFO - Logfile is 'build/appunti_intern_pol.blg'
+[27] biber-darwin:340> INFO - === Fri Aug 28, 2026, 11:47:42
+[33] Biber.pm:420> INFO - Reading 'build/appunti_intern_pol.bcf'
+[81] Biber.pm:994> INFO - Found 24 citekeys in bib section 0
+[94] Biber.pm:4463> INFO - Processing section 0
+[100] Biber.pm:4654> INFO - Looking for bibtex file '/Users/filippo/Documents/Lab/Appunti di International Politics/appunti_inter_pol.bib' for section 0
+[108] bibtex.pm:1713> INFO - LaTeX decoding ...
+[180] bibtex.pm:1519> INFO - Found BibTeX data source '/Users/filippo/Documents/Lab/Appunti di International Politics/appunti_inter_pol.bib'
+[274] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[274] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[274] Biber.pm:4283> INFO - Sorting list 'apa/apasortcite//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[274] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[298] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[299] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[299] Biber.pm:4283> INFO - Sorting list 'apa/global//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[299] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[313] bbl.pm:676> INFO - Writing 'build/appunti_intern_pol.bbl' with encoding 'UTF-8'
+[326] bbl.pm:779> INFO - Output to build/appunti_intern_pol.bbl
+[326] Biber.pm:131> WARN - ISBN '978-0-19-754130-2 978-0-19-754133-3' in entry 'levyForeignPolicyDecisionMaking2023' is invalid - run biber with '--validate_datamodel' for details.
+[326] Biber.pm:131> WARN - ISBN '978-0-19-754130-2 978-0-19-754133-3' in entry 'steinPerceivingThreatCognition2023' is invalid - run biber with '--validate_datamodel' for details.
+[326] Biber.pm:133> INFO - WARNINGS: 2
