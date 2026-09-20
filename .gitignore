@@ -1,0 +1,36 @@
+# Output dir
+/build/
+
+# BibLaTeX / biber
+*.bcf
+*.run.xml
+
+# XeLaTeX
+*.xdv
+
+# macOS
+.DS_Store
+
+# LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# LaTeX intermediate
+*.nav
+*.snm
+
+# Editor files
+*.swp
+*.swo
+*~
+
+~$*.pptx
