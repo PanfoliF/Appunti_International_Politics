@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+
+biber_universal="/usr/local/texlive/2025/bin/universal-darwin/biber"
+lipo_tool="/usr/bin/lipo"
+cache_root="${TMPDIR:-/tmp}"
+biber_arm64="$cache_root/thesis-biber-arm64"
+biber_pending="$cache_root/thesis-biber-arm64.$$"
+
+if [ ! -x "$biber_universal" ]; then
+    echo "Biber executable not found: $biber_universal" >&2
+    exit 127
+fi
+
+if [ ! -x "$biber_arm64" ] || [ "$biber_universal" -nt "$biber_arm64" ]; then
+    "$lipo_tool" "$biber_universal" -thin arm64 -output "$biber_pending"
+    chmod +x "$biber_pending"
+    mv -f "$biber_pending" "$biber_arm64"
+fi
+
+exec "$biber_arm64" "$@"
