@@ -83,7 +83,7 @@
       <file>thesis.bcf</file>
     </requires>
     <requires type="editable">
-      <file>/Users/filippo/Documents/Lab/Appunti di International Politics/appunti_inter_pol.bib</file>
+      <file>quantitative_analysis.bib</file>
     </requires>
   </external>
 </requests>
