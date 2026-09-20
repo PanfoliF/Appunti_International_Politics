@@ -3070,6 +3070,9 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">quantitative_analysis.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="3" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
     <bcf:citekey order="6" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
     <bcf:citekey order="7" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
     <bcf:citekey order="8" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
@@ -3084,12 +3087,6 @@
     <bcf:citekey order="17" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
     <bcf:citekey order="18" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
     <bcf:citekey order="19" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">cranmerWhatCanWe2017</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">
