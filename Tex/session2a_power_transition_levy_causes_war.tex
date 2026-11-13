@@ -33,8 +33,9 @@ Other "hansard\_name" contain the title of the speaker or the office that holds,
 Even though the variable "hansard\_person\_slug" is missing from about 12\% of the data,% aggiornare questi numeri se si cambia il periodo di analisi e si aumentano gli anni che si analizzano
 there are only 846 unique values. This variable also seem to be derived somehow more precisely than "hansard\_name". It usally contains "ms" or "miss", the name and the surname of the members split by "\-". Some times it also has a number at the end, that probably indicates the fact that two members had the same name and surname, in the whole set of digitalised speeches if not in a single legislation. Thus, I assumed that this variable was more reliable than "hansard\_name", though much less complete.
 
-In order to extract information from the "hansard\_name" I produced "05\_slug\_test.py". The file removes a list of symbols and a list of stopwords from the "hansard\_name" and puts all letters in lower case.
-
+In order to extract information from the "hansard\_name" I produced "05\_slug\_test.py". It creates a new variable called "slug\_test" when there is an "hansard\_name" without no "hansard\_person\_slug".
+The file removes a list of symbols and a list of stopwords from the value in "hansard\_name" and puts all letters in lower case. There are 699 values for "slug\_test" and 88\% of the column's values are missing.% aggiornare questi numeri se si cambia il periodo di analisi e si aumentano gli anni che si analizzano
+"slug\_test" values are uniquely associated to "speech\_id".
 
 \subsection{Merging Lords Data with Speeches}
 As alreay mentioned at the beginning of this chapter, in order to have a complete collection of data and speeches of the Members of the House of Lords, we still need to match the data about the Members and the interventions they made in the House. In this way, we will have comparable data to the ones of \textcite{blumenauHouseCommonsParliamentary2021}. On one side,
