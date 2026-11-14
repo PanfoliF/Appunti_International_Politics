@@ -33,17 +33,46 @@ Other "hansard\_name" contain the title of the speaker or the office that holds,
 Even though the variable "hansard\_person\_slug" is missing from about 12\% of the data,% aggiornare questi numeri se si cambia il periodo di analisi e si aumentano gli anni che si analizzano
 there are only 846 unique values. This variable also seem to be derived somehow more precisely than "hansard\_name". It usally contains "ms" or "miss", the name and the surname of the members split by "\-". Some times it also has a number at the end, that probably indicates the fact that two members had the same name and surname, in the whole set of digitalised speeches if not in a single legislation. Thus, I assumed that this variable was more reliable than "hansard\_name", though much less complete.
 
-In order to extract information from the "hansard\_name" I produced "05\_slug\_test.py". It creates a new variable called "slug\_test" when there is an "hansard\_name" without no "hansard\_person\_slug".
+In order to extract information from the "hansard\_name" I produced "05\_slug\_test.py". It creates a new variable called "slug\_test" when the "hansard\_name" has no "hansard\_person\_slug".
 The file removes a list of symbols and a list of stopwords from the value in "hansard\_name" and puts all letters in lower case. There are 699 values for "slug\_test" and 88\% of the column's values are missing.% aggiornare questi numeri se si cambia il periodo di analisi e si aumentano gli anni che si analizzano
 "slug\_test" values are uniquely associated to "speech\_id".
+This new variable contains both good results and bad results. For examples there is a long list of names that contain the title, such as Lord, Baroness, Viscount, Marquess, Duke or Earl followed surname ("viscount arbuthnott", "viscount barrington", "lord waddon", "lord wallace coslany", "baroness vickers" or "baroness ward north tyne side"). These values will be useful in the matching function. Unfortunately there are a series of mistakes that make it impossible to identify the speaker. For example, there are values such as "underhill", "eggs", or "house resumed". Other mistakes probably depend on the information retrival procedure of the archive, because values such as "seleral noble lords", "several lords", "noble baroness said", "noble earl said" or "noble lord" are clearly the incipit of some speeches.
+Another set of values will be useful in the AI matching% attenzione ho citato l'AI
+because list the office of the speaker from which it is possible to recover the identity of the speaker if the date of the speech is known. These values are, for instance, "secretary state trade industry lord young graham", "secretary state trade lord cockfleld", "minister state defence procurement lord trenchard", "minister state department employment earl cowrie", "deputy chairman committees", "deputy chairman committees baroness cox", "deputy chairman committees earl carthcart", "parliamentary under-secretary state northern ireland office lord lye11", "parliamentary under-secretary state northern ireland office lord lyle said" or "parliamentary undersecretary state home office lord bel stead".
+Since in some Members of the House of Lords are in Holy order we must take into account another level of complexity if we are to retrive the highest number of information from the "hansard\_name" column. In "slug\_test" there are values such as "archbishop canterbury", "archbishop york", "lord bishop blackburn", "lord bishop bradford", "lord bishop bristol", "bishop bradford" or "bishop guildford". These values can identify the Member of the House in the UK Parliament plaform \cite{MPsLordsUK}.
+
+% CHI è IL DEPUTY SPEAKER?
+% deputy seaker
+% deputy speaker
+% deputy speaker lord der-went
+% deputy speaker lord gran tchester
+% deputy speaker lord murton lindisfarne
+% deputy speaker viscount hood
 
 \subsection{Merging Lords Data with Speeches}
-As alreay mentioned at the beginning of this chapter, in order to have a complete collection of data and speeches of the Members of the House of Lords, we still need to match the data about the Members and the interventions they made in the House. In this way, we will have comparable data to the ones of \textcite{blumenauHouseCommonsParliamentary2021}. On one side,
+As alreay mentioned at the beginning of this chapter, in order to have a complete collection of data and speeches of the Members of the House of Lords, we still need to match the data about the Members and the interventions they made in the House. In this way, we will have data comparable to the ones of \textcite{blumenauHouseCommonsParliamentary2021}. On one side,
 "person\_id", "mnis\_id", "given\_name", "family\_name" and  "display\_name" are the variables that uniquely identify a Member of the House of Lords in the data downloaded with the pdpy package. In "personal\_data" there are other variables that describe Members' names: "other\_names" and "full\_title". These variables are correctly and uniquely matched to the identifiers.
-On the speeches side, we have "hansard\_name" and "hansard\_person\_slug". 
+On the speeches side, we have "hansard\_name", "hansard\_person\_slug" and "slug\_test".
 
-\begin{center}
-    \includegraphics[width=1\textwidth]{images/power_transition_triangle.jpg}
-    \captionof{figure}{\label{fig:fig1_power_transition_triangle}%\textit{\parencite[Fig.\(\backsim\)1]{cranmerWhatCanWe2017}}
-    }
-\end{center}
+The script "07\_lords\_data\_and\_speeches\_merge.py" implements a reproducible record linkage procedure that connects speaker identifiers in the "hansard\_lords\_1979\_1989\_slug\_test.csv"% attenzione alle date
+to MNIS identifiers in "lords\_data\_merged.csv". Its purpose is to construct a correspondence dictionary that can support subsequent integration of parliamentary speeches with individual characteristics, while preserving the original records and documenting the basis of each linkage decision.
+
+The script retains the identifier’s provenance because "slug\_test" and "hansard\_person\_slug" differ in their construction and potential exposure to attribution errors. Although "hansard\_name" is preserved for reference and export, it is not independently compared during matching. Interventions are grouped according to the identifier used—either "hansard\_person\_slug", when unavailable, "slug\_test"--and its exact value before normalization. Each group retains all distinct recorded speaker names, valid intervention dates, the total number of interventions, the number of missing or invalid dates, and any previously assigned MNIS identifiers. For example, "mr\-john\-palmer\-2` is the original value, whereas `john palmer` is the normalized form used for comparison. Grouping takes both elements into account: two interventions belong to the same group only if their identifiers come from the same variable and have exactly the same original value. Consequently, identical values originating from different identifier variables form separate groups.
+
+Candidate identities are retrieved through exact equality between normalized identifier variants and an index of member names and titles. Normalization standardizes case, removes diacritical marks, separates words by discarding punctuation, excludes specified English stop words, and removes recognized initial forms of address. Additional rules standardize selected parliamentary and ecclesiastical titles and remove listed terminal honours. The member index incorporates display names, full titles, given names combined with surnames, and fuller personal names where additional name components are available.
+
+Alternative queries may omit an initial parliamentary rank when sufficient name components remain, while avoiding searches based solely on a surname obtained by removing a title. Numeric suffixes are removed from original Hansard slugs for comparison, but distinct observed slugs sharing the same resulting base are withheld from automatic assignment to prevent the normalization process from conflating separate source identifiers.
+
+Textual correspondence is subsequently evaluated against temporal evidence. For every valid intervention date, candidates are classified according to whether their recorded Lords membership intervals confirm their presence, contradict it, or provide insufficient information; available birth and death dates supply further exclusion criteria. Membership boundaries are inclusive, and an interval with a known start but no end is treated as open-ended.
+
+Automatic assignment requires one uniquely eligible, temporally confirmed candidate on every intervention date and the same MNIS identity throughout the group.
+
+A candidate with unknown membership remains non-excludable and can therefore prevent an otherwise plausible assignment. Missing or invalid intervention dates, incompatible membership histories, identities that change across dates, and conflicts with existing MNIS assignments likewise leave the group unresolved. Existing identifiers function as consistency checks rather than independent grounds for acceptance. When no exact textual candidate exists, approximate string comparison supplies suggestions for manual inspection; these suggestions never produce automatic matches, and their similarity threshold is not interpreted as an identity probability.
+
+The script exports accepted correspondences to matched.csv, unresolved cases to unmatched.csv, and group-level evidence and decision reasons to matching\_report.csv. Distinct original speaker-name variants are retained, allowing multiple dictionary rows to refer to the same individual. The resulting dictionary represents a date-invariant association between identifiers rather than a speech-level merge, so titles referring to different individuals over time remain unresolved.
+
+% \begin{center}
+%     \includegraphics[width=1\textwidth]{images/power_transition_triangle.jpg}
+%     \captionof{figure}{\label{fig:fig1_power_transition_triangle}%\textit{\parencite[Fig.\(\backsim\)1]{cranmerWhatCanWe2017}}
+%     }
+% \end{center}
